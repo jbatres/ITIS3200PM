@@ -8,7 +8,7 @@ public class main {
             //Scanner for user's input
             Scanner in = new Scanner(System.in);
 
-            //quit flag
+            //quit flag for program
             boolean quit = false;
 
             //Menu choice
