@@ -14,7 +14,7 @@ public class main {
             //Menu choice
             int menuItem;
             do {
-                System.out.println("[1]\t Passwords");
+                System.out.println("[1]\t Passwords!");
                 System.out.println("[2]\t Wallet");
                 System.out.println("[3]\t Contacts");
 
