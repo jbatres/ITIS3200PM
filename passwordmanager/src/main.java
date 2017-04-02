@@ -1,48 +1,77 @@
 /**
  * Created by Jairo on 3/25/2017.
  */
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
+import java.lang.*;
 
-public class main {
-        public static void main(String[] args) {
-            //Scanner for user's input
-            Scanner in = new Scanner(System.in);
 
-            //quit flag for program
-            boolean quit = false;
+public class  main{
 
-            //Menu choice
-            int menuItem;
-            do {
-                System.out.println("[1]\t Passwords!");
-                System.out.println("[2]\t Wallet");
-                System.out.println("[3]\t Contacts");
+    private static Scanner in = new Scanner(System.in);
+    private static char choice;
+    private static String contactInfo;
+    private static String newFold;
 
-                //Get menu choice for user
-                System.out.print("Choose menu item: ");
-                menuItem = in.nextInt();
 
-                switch (menuItem) {
-                    case 1:
-                        System.out.println("Passwords!");
-                        // do something...
-                        break;
-                    case 2:
-                        System.out.println("Wallets!");
-                        // do something...
-                        break;
-                    case 3:
-                        System.out.println("Contacts!");
-                        // do something...
-                        break;
-                    case 0:
-                        quit = true;
-                        break;
-                    default:
-                        System.out.println("Invalid choice.");
-                }
-            } while (!quit);
-            System.out.println("Exiting....");
+    public static void newFolder(){
+        do{
+            System.out.println("Enter the Name of the new folder you want to create: ");
+            newFold = in.nextLine();
+
+            System.out.println("Enter the Information you want to store: ");
+            String newFoldInfo = in.nextLine();
+
+            System.out.println("If you want to exit to the main menu, enter the number '0'");
+            System.out.println("However, if you want to store other Contact information, enter any charachter other than '0'");
+            choice = in.nextLine().charAt(0);
+
+            if(choice == '0'){
+                choice = MenuItem.mainMenu();
+            }
+
+            try{
+
+
+                PrintWriter writer = new PrintWriter(newFold + ".txt" , "UTF-8");
+                writer.println(newFoldInfo);
+
+                writer.close();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
+        }while(choice != '0');
+    }
+
+
+
+    public static void main(String[] args) {
+
+       // choice = menuItem();
+
+        choice = MenuItem.mainMenu();
+
+        while(choice != '0'){
+            if (choice == '1'){
+                choice = Passwords.PasswordHomeScreen();
+            }
+            else if (choice == '2'){
+                choice= Wallet.WalletHomeScreen();
+            }
+            else if (choice == '3'){
+                choice = Contacs.ContatsHomeScreen();
+            }
+            else if (choice == '4'){
+                newFolder();
+            }
+            else if (choice == '0'){
+                System.out.println("You decided to quit the program. Goodbye :)");
+            }
+            else{
+                System.out.println("Invalid input. Try again.");
+                //menuItem();
+            }
         }
-
+    }
 }
