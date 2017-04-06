@@ -23,7 +23,7 @@ public class  main{
             String newFoldInfo = in.nextLine();
 
             System.out.println("If you want to exit to the main menu, enter the number '0'");
-            System.out.println("However, if you want to store other Contact information, enter any charachter other than '0'");
+            System.out.println("However, if you want to store other Contact information, enter any character other than '0'");
             choice = in.nextLine().charAt(0);
 
             if(choice == '0'){
