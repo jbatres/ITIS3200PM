@@ -60,10 +60,10 @@ public class  main{
                 choice= Wallet.WalletHomeScreen();
             }
             else if (choice == '3'){
-                choice = Contacs.ContatsHomeScreen();
+                choice = Contacs.ContactHomeScreen();
             }
             else if (choice == '4'){
-                newFolder();
+                choice = newFolder.NewFolerScreen();
             }
             else if (choice == '0'){
                 System.out.println("You decided to quit the program. Goodbye :)");
