@@ -18,15 +18,15 @@ public class  main{
         First and foremost,
         Call the login for this application
          */
-        Boolean login = null; //to check whether it as succesful or not
+        Boolean loginFlag = null; //to check whether it as succesful or not
         int attempts = 0; //to count the number of attempts someone fails inputting the password
         do {
-            login = login.loginPage();
-            if (login) {
+            loginFlag = login.loginPage();
+            if (loginFlag) {
                 System.out.println("Login was successful!");
                 break;//break of the whie loop if login is succesful
             }
-            else if (!login) {
+            else if (!loginFlag) {
                 attempts++;
                 if(attempts==3)
                     System.exit(0);

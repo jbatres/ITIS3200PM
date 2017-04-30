@@ -6,6 +6,7 @@ public class login
 {
     private static Scanner in = new Scanner(System.in);
     private static File maspass = new File("masterpass.txt");//File for master password
+
     public static boolean loginPage() {
 
         Boolean login = null; //login fails = false, success = true
