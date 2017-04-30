@@ -2,7 +2,6 @@
  * Created by Jairo on 3/25/2017.
  */
 import java.util.*;
-import java.io.*;
 import java.lang.*;
 
 
@@ -13,42 +12,27 @@ public class  main{
     private static String contactInfo;
     private static String newFold;
 
-
-    public static void newFolder(){
-        do{
-            System.out.println("Enter the Name of the new folder you want to create: ");
-            newFold = in.nextLine();
-
-            System.out.println("Enter the Information you want to store: ");
-            String newFoldInfo = in.nextLine();
-
-            System.out.println("If you want to exit to the main menu, enter the number '0'");
-            System.out.println("However, if you want to store other Contact information, enter any character other than '0'");
-            choice = in.nextLine().charAt(0);
-
-            if(choice == '0'){
-                choice = MenuItem.mainMenu();
-            }
-
-            try{
-
-
-                PrintWriter writer = new PrintWriter(newFold + ".txt" , "UTF-8");
-                writer.println(newFoldInfo);
-
-                writer.close();
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-
-        }while(choice != '0');
-    }
-
-
-
     public static void main(String[] args) {
 
-       // choice = menuItem();
+        /*
+        First and foremost,
+        Call the login for this application
+         */
+        Boolean login = null; //to check whether it as succesful or not
+        int attempts = 0; //to count the number of attempts someone fails inputting the password
+        do {
+            login = login.loginPage();
+            if (login) {
+                System.out.println("Login was successful!");
+                break;//break of the whie loop if login is succesful
+            }
+            else if (!login) {
+                attempts++;
+                if(attempts==3)
+                    System.exit(0);
+                System.out.println("Login failed. Please try again");
+            }
+        }while (attempts < 3);
 
         choice = MenuItem.mainMenu();
 
@@ -70,6 +54,7 @@ public class  main{
             }
             else{
                 System.out.println("Invalid input. Try again.");
+                choice = MenuItem.mainMenu();
                 //menuItem();
             }
         }

@@ -42,19 +42,6 @@ public class Passwords {
         } while (choice != '0');
 
 
-        /*
-            System.out.println("If you want to exit to the main menu, enter the number '0'");
-            System.out.println("However, if you want to store another password, enter any charachter other than '0'");
-            choice = in.nextLine().charAt(0);
-
-            if(choice == '0'){
-                 choice = MenuItem.mainMenu();
-            }
-            else{
-                PasswordHomeScreen();
-            }
-            */
-
         return choice;
     }
 
@@ -77,7 +64,6 @@ public class Passwords {
                     String[] values = line.split(" ");
                     passwords.put(values[0],values[1]);
                 }
-
                 fileReader.close();//close the file reader (for buffer)
 
                 //for loop to go through all key pair values and decrypt passwords
@@ -85,7 +71,6 @@ public class Passwords {
                     String account = entry.getKey();
 
                     System.out.println("Account: " + account);
-
                 }
 
                 System.out.println("\nChose from above: ");
@@ -146,6 +131,18 @@ public class Passwords {
         System.out.println("Enter the Password you want to store: ");
         pass = in.nextLine();
 
+        boolean passCheckFlag = databaseCheck(pass);
+        System.out.println(passCheckFlag);
+
+        if(passCheckFlag){
+        do{
+            System.out.println("Warning! Please keep all passwords unique!");
+            System.out.println("re enter the password you want to store!");
+            pass = in.nextLine();
+            passCheckFlag = databaseCheck(pass);
+        }while (passCheckFlag == true);
+        }
+
         try{
             //  Key aesKey = new SecretKeySpec(myPassword.getBytes(), "AES");
 
@@ -175,5 +172,40 @@ public class Passwords {
 
     }
 
+    public static boolean databaseCheck(String password){
 
+        try {
+            if(!new File("Password-File.txt").exists())
+                return false;
+
+
+            File file = new File("Password-File.txt"); //create file object pointing to the password file
+            FileReader fileReader = new FileReader(file); // new file reader for the buffer
+            BufferedReader bufferedReader = new BufferedReader(fileReader); // buffer reader, needed to read line
+            // by line from the password file
+            HashMap<String,String> passwords = new HashMap<String,String>();//hash map (key=account, val= encrypted pass)
+            String line;
+
+            //while loops goes through the password files and adds the key pair value to hash (account, encrypted pass)
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] values = line.split(" ");
+                passwords.put(values[0],values[1]);
+            }
+            fileReader.close();//close the file reader (for buffer)
+
+            //for loop to go through all key pair values and decrypt passwords
+            for(Map.Entry<String, String> entry : passwords.entrySet()) {
+                String account = entry.getKey();
+                String decrypted = decrypt(passwords.get(account), aesKey);
+                if(decrypted.equals(password))
+                    return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return false;
+    }
 }
