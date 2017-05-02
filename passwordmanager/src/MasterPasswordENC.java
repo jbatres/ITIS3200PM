@@ -12,12 +12,11 @@ public class MasterPasswordENC
     public static final int PBINDEX = 4;
     public static final int iterationINDEX = 1;
     public static final int sections = 5;
+    public static final int hashSize = 24;
     public static final int algoINDEX = 0;
     public static final int hashINDEX = 2;
     public static final int saltINDEX = 3;
-
     public static final int saltSize = 32;
-    public static final int hashSize = 24;
     public static final int PBKDF2Iterations = 64000; //by default 32000, double to increase protection of the password
 
     private static byte[] fromBase64(String hex)
@@ -144,10 +143,27 @@ public class MasterPasswordENC
         //password is correct if they both match
         return slowEquasl(hash, secondHash);
     }
+
+
+    //format specifications for PBKDF2
+    private static byte[] pb(char[] password, byte[] saltSize, int numLaps, int bites) throws operationEX
+    {
+        try {
+            //first, take the password, salt, number of interations and bytes
+            PBEKeySpec formatSpeficications = new PBEKeySpec(password, saltSize, numLaps, bites * 8);
+            //get instance of the secret key factory
+            SecretKeyFactory secretK = SecretKeyFactory.getInstance(format());
+            //generateSecret with the given format specifications
+            return secretK.generateSecret(formatSpeficications).getEncoded();
+        } catch (NoSuchAlgorithmException ex) {
+            throw new operationEX("has is not supported.", ex);
+        } catch (InvalidKeySpecException ex) {
+            throw new operationEX("Invalid key entry", ex);
+        }
+    }
     /*
    slow equals comparing the hashes in length-constant-time
      */
-
     private static boolean slowEquasl(byte[] a, byte[] b)
     {
         int difference = a.length ^ b.length;
@@ -156,21 +172,5 @@ public class MasterPasswordENC
         }
         return difference == 0;
     }
-
-    private static byte[] pb(char[] password, byte[] salt, int iterations, int bytes)
-            throws operationEX
-    {
-        try {
-            PBEKeySpec formatSpeficications = new PBEKeySpec(password, salt, iterations, bytes * 8);
-            SecretKeyFactory skf = SecretKeyFactory.getInstance(format());
-            return skf.generateSecret(formatSpeficications).getEncoded();
-        } catch (NoSuchAlgorithmException ex) {
-            throw new operationEX("has is not supported.", ex);
-        } catch (InvalidKeySpecException ex) {
-            throw new operationEX("Invalid key entry", ex);
-        }
-    }
-
-
 
 }

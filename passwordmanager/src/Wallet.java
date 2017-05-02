@@ -16,7 +16,7 @@ public class Wallet {
     private static String walletName;
     private static String walletInfo;
     private static char choice;
-    static String myPassword = "Bar12345Bar12345";
+    static String myPassword = login.getKey();
     static Key aesKey = new SecretKeySpec(myPassword.getBytes(), "AES");
 
 
@@ -49,7 +49,7 @@ public class Wallet {
 
     public static void ShowWallet()
     {
-        String myPassword = "Bar12345Bar12345"; //the one saved when you logged in
+        String myPassword = login.getKey(); //the one saved when you logged in
 
         if(new File("Wallet-File.txt").exists()) //exists
         {

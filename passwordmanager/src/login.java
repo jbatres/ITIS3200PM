@@ -6,6 +6,7 @@ public class login
 {
     private static Scanner in = new Scanner(System.in);
     private static File maspass = new File("masterpass.txt");//File for master password
+    public static String passKey;
 
     public static boolean loginPage() {
 
@@ -41,7 +42,7 @@ public class login
 
         System.out.println("Welcome to the new user set up!");
         System.out.println("You need to set up a master password for this application!");
-        System.out.println("-At least 10 characters ");
+        System.out.println("-10 characters ");
         System.out.println("-Must contain at least one digit ");
         System.out.println("-Must contain at least one lower case");
         System.out.println("-Must contain at least one upper case");
@@ -59,6 +60,8 @@ public class login
                 secondPass = in.nextLine();
             }
         }while(!password.equals(secondPass) || !verification); //Both passwords must match before moving foward and verification passes
+
+        passKey = secondPass + "keypas";
 
         //after getting the master password, we need to hash it
         try
@@ -124,6 +127,9 @@ public class login
             System.exit(1);
         }
 
+        if (flag)
+            passKey = password+"keypas";
+
         return flag;
 
         /*
@@ -139,12 +145,16 @@ public class login
     public static boolean authenticate(String password)
     {
 
-        if ((password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{10,}$")))
+        if ((password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{10,10}$")))
             return true;
         else {
 
             System.out.println("Your password did not meet requirements!");
             return false;
         }
+    }
+
+    public static String getKey(){
+        return passKey;
     }
 }

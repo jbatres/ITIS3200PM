@@ -16,11 +16,12 @@ public class Passwords {
     private static String account;
     private static String pass;
     private static char choice;
-    static String myPassword = "Bar12345Bar12345";
+    static String myPassword = login.getKey();
     static Key aesKey = new SecretKeySpec(myPassword.getBytes(), "AES");
 
 
     public static char PasswordHomeScreen(){
+       // System.out.println(login.getKey());
         System.out.println("\nWelcome To Your Password domain!");
 
         do {
@@ -47,7 +48,7 @@ public class Passwords {
 
     public static void ShowAccounts()
     {
-        String myPassword = "Bar12345Bar12345"; //the one saved when you logged in
+        String myPassword = login.getKey(); //the one saved when you logged in
 
         if(new File("Password-File.txt").exists()) //exists
         {
@@ -132,7 +133,7 @@ public class Passwords {
         pass = in.nextLine();
 
         boolean passCheckFlag = databaseCheck(pass);
-        System.out.println(passCheckFlag);
+       // System.out.println(passCheckFlag);
 
         if(passCheckFlag){
         do{

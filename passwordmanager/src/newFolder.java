@@ -16,7 +16,7 @@ public class newFolder {
     private static String newKeyName;
     private static String walueInfo;
     private static char choice;
-    static String myPassword = "Bar12345Bar12345";
+    static String myPassword = login.getKey();
     static Key aesKey = new SecretKeySpec(myPassword.getBytes(), "AES");
 
 
@@ -50,7 +50,7 @@ public class newFolder {
 
     public static void ShowKeys()
     {
-        String myPassword = "Bar12345Bar12345"; //the one saved when you logged in
+        String myPassword = login.getKey(); //the one saved when you logged in
 
         if(new File("NewFolder-File.txt").exists()) //exists
         {
@@ -129,10 +129,10 @@ public class newFolder {
     }
 
     public static void addKeys(){
-        System.out.println("Enter the key tittle you want to store: ");
+        System.out.println("Enter the key tittle you want to store:  ");
         newKeyName = in.nextLine();
 
-        System.out.println("Enter the key value info you want to store: ");
+        System.out.println("Enter the key value info you want to store:  ");
         walueInfo = in.nextLine();
 
         try{
@@ -140,7 +140,7 @@ public class newFolder {
 
             String encryptedPassword = encrypt(walueInfo, aesKey); //encryp the password entered
 
-            if(new File("NewFoler-File.txt").exists()) //exists
+            if(new File("NewFolder-File.txt").exists()) //exists
             {
                 PrintWriter writer = new PrintWriter(new FileWriter("NewFolder-File.txt", true));
                 writer.append(newKeyName + " " + encryptedPassword +"\n");
@@ -152,8 +152,6 @@ public class newFolder {
                 writer.print(newKeyName + " " + encryptedPassword +"\n");
                 writer.close();
             }
-
-
 
         }catch(IOException e){
             e.printStackTrace();
