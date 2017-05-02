@@ -80,8 +80,12 @@ public class Wallet {
                 System.out.println("\nChose from above: ");
                 String chosenWallet = in.nextLine();
 
-                String decrypted = decrypt(wallets.get(chosenWallet), aesKey);
-                System.out.println("The wallet info is:" + decrypted);
+                try {
+                    String decrypted = decrypt(wallets.get(chosenWallet), aesKey);
+                    System.out.println("The wallet info is:" + decrypted);
+                }catch(NullPointerException e){
+                    System.out.println("The option you chose does not exists!");
+                }
 
 
 

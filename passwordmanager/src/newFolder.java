@@ -80,8 +80,12 @@ public class newFolder {
                 System.out.println("\nChose from above: ");
                 String chosenWallet = in.nextLine();
 
-                String decrypted = decrypt(folderKeys.get(chosenWallet), aesKey);
-                System.out.println("The value info is:" + decrypted);
+                try {
+                    String decrypted = decrypt(folderKeys.get(chosenWallet), aesKey);
+                    System.out.println("The value info is:" + decrypted);
+                }catch(NullPointerException e){
+                    System.out.println("The key does not exist!");
+                }
 
 
 

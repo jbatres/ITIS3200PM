@@ -80,8 +80,12 @@ public class Contacs {
                 System.out.println("\nChose from above: ");
                 String chosenContact = in.nextLine();
 
+                try{
                 String decrypted = decrypt(contacts.get(chosenContact), aesKey);
                 System.out.println("The contact info is:" + decrypted);
+                }catch(NullPointerException e){
+                    System.out.println("Contact does not exist!");
+                }
 
 
 
@@ -132,7 +136,7 @@ public class Contacs {
         System.out.println("Enter the Account name you want to store: ");
         contactName = in.nextLine();
 
-        System.out.println("Enter the Password you want to store: ");
+        System.out.println("Enter the information you want to store: ");
         contactInfo = in.nextLine();
 
         try{

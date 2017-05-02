@@ -18,8 +18,6 @@ public class  main{
         First and foremost,
         Call the login for this application
          */
-
-        System.out.println(login.getKey());
         Boolean loginFlag = null; //to check whether it as succesful or not
         int attempts = 0; //to count the number of attempts someone fails inputting the password
         do {

@@ -2,6 +2,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.security.Key;
+import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +22,6 @@ public class Passwords {
 
 
     public static char PasswordHomeScreen(){
-       // System.out.println(login.getKey());
         System.out.println("\nWelcome To Your Password domain!");
 
         do {
@@ -74,11 +74,14 @@ public class Passwords {
                     System.out.println("Account: " + account);
                 }
 
-                System.out.println("\nChose from above: ");
+                System.out.println("\nChoose from above (type the name of the account: ");
                 String chosenAccount = in.nextLine();
-
+                try{
                 String decrypted = decrypt(passwords.get(chosenAccount), aesKey);
                 System.out.println("Your password is:" + decrypted);
+                }catch(NullPointerException e){
+                    System.out.println("The account you chose does not exist!");
+                }
 
 
 
@@ -129,19 +132,45 @@ public class Passwords {
         System.out.println("Enter the Account name you want to store: ");
         account = in.nextLine();
 
+        Scanner kb = new Scanner(System.in);
+        String ch = null;
+
+        System.out.println("Do you want to have the application generate a strong password for you so that you may possibly use the password in the future? Enter either yes(Y) or no(N): (Y/N)");
+        ch = kb.nextLine();
+
+        do{
+            if(ch.equalsIgnoreCase("Y")){
+                System.out.println("What do you want the length of your password to be? (Must be greater than 5)");
+                int lengthOfPass = kb.nextInt();
+
+                if(lengthOfPass < 6){
+                    System.out.println("Password must be greater than 5");
+                    lengthOfPass = kb.nextInt();
+                }
+
+                generatePassword(lengthOfPass);
+            }
+            else if(ch.equalsIgnoreCase("N")){
+                System.out.println("You chose not to have the application generate a strong password for you.");
+            }
+            else{
+                System.out.println("You must enter either (Y/N)!");
+                ch = kb.nextLine();
+            }
+        }while(!ch.equalsIgnoreCase("Y") && !ch.equalsIgnoreCase("N"));
+
         System.out.println("Enter the Password you want to store: ");
         pass = in.nextLine();
 
         boolean passCheckFlag = databaseCheck(pass);
-       // System.out.println(passCheckFlag);
 
         if(passCheckFlag){
-        do{
-            System.out.println("Warning! Please keep all passwords unique!");
-            System.out.println("re enter the password you want to store!");
-            pass = in.nextLine();
-            passCheckFlag = databaseCheck(pass);
-        }while (passCheckFlag == true);
+            do{
+                System.out.println("Warning! Please keep all passwords unique!");
+                System.out.println("re enter the password you want to store!");
+                pass = in.nextLine();
+                passCheckFlag = databaseCheck(pass);
+            }while (passCheckFlag == true);
         }
 
         try{
@@ -201,12 +230,37 @@ public class Passwords {
                 if(decrypted.equals(password))
                     return true;
             }
-
+            bufferedReader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
         return false;
+    }
+
+    public static void generatePassword(int lengthOfPass){
+
+        SecureRandom r = new SecureRandom();
+        //private static int enough = 0;
+        String suggestedPass;
+        String possChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+        //System.out.println("How many passwords do you want to generate?");
+        //int amount = kb.nextInt();
+
+        StringBuffer cs = new StringBuffer(lengthOfPass);
+        //for(int x = 0; x <= amount; x++){
+
+
+        for(int i = 0; i <= lengthOfPass - 1; i++){
+            cs.append(possChars.charAt(r.nextInt(possChars.length())));
+        }
+
+        suggestedPass = cs.toString();
+        System.out.println("Possible Password: " + suggestedPass);
+        //}
+
+
     }
 }
